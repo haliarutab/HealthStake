@@ -1,3 +1,9 @@
+/**
+ * Try to keep page.tsx file as server component, everywhere
+ * In case of client component necessity, create a separate component file and import it here
+ * Otherwise, add "use client" directive at the top of this file
+ */
+
 import Image from "next/image";
 
 export default function Home() {
