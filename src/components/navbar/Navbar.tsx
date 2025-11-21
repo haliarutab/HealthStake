@@ -1,7 +1,7 @@
 // components/Navbar.tsx
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react"; // lucide icons (or use any icon library)
+import { Menu, X } from "lucide-react"; // lucide icons 
 import { useState } from "react";
 
 export default function Navbar() {

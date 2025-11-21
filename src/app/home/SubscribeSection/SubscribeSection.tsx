@@ -17,7 +17,7 @@ export default function SubscribeSection() {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Left: Text */}
           <div className="text-white text-center lg:text-left">
-            <h2 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+            <h2 className="text-3xl lg:text-5xl xl:text-5xl font-bold leading-tight">
               Subscribe Us To
               <br />
               Get More Updates

@@ -7,19 +7,19 @@ export default function ClientSuccessStories() {
       name: "Raul Fernandez",
       date: "February 2023",
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco...",
-      avatar: "/images/testimonials/raul.jpg",
+      avatar: "/images/clients/client1.png",
     },
     {
       name: "Carlos Rodriguez",
       date: "March 2023",
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco...",
-      avatar: "/images/testimonials/carlos.jpg",
+      avatar: "/images/clients/client2.png",
     },
     {
       name: "Martha Alonso",
       date: "April 2023",
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco...",
-      avatar: "/images/testimonials/martha.jpg",
+      avatar: "/images/clients/client3.png",
     },
   ];
 
@@ -28,7 +28,7 @@ export default function ClientSuccessStories() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-heading">
+          <h2 className="text-4xl sm:text-4xl lg:text-5xl font-bold text-heading">
             Client Success Stories
           </h2>
           <p className="mt-4 text-lg text-paragraph max-w-3xl mx-auto">

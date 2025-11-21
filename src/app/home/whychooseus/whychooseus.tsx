@@ -32,7 +32,7 @@ export default function WhyChooseUs() {
       <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-28">
         {/* Header */}
         <div className="text-center text-white mb-16 lg:mb-20">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+          <h2 className="text-4xl sm:text-4xl lg:text-5xl font-bold mb-4">
             Why Choose Us?
           </h2>
           <p className="text-lg sm:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed">

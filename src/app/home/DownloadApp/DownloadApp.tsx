@@ -3,12 +3,12 @@ import Image from "next/image";
 
 export default function DownloadApp() {
   return (
-    <section className="bg-[#F8FBFF] py-20 lg:py-28 overflow-hidden">
+    <section className="bg-[#F8FBFF] py-10 lg:py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text + Buttons */}
           <div className="text-center lg:text-left">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-heading mb-6">
+            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-heading mb-6">
               Download the app
             </h2>
             <p className="text-lg text-paragraph max-w-xl mx-auto lg:mx-0 leading-relaxed">
@@ -17,7 +17,7 @@ export default function DownloadApp() {
             </p>
 
             {/* App Store Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start mt-10">
+            <div className="flex flex-wrap sm:flex-row gap-6 justify-center lg:justify-start mt-10">
               <a
                 href="#"
                 className="flex items-center gap-3 bg-black text-white px-6 py-4 rounded-xl hover:bg-gray-800 transition shadow-lg"
@@ -49,7 +49,8 @@ export default function DownloadApp() {
           </div>
 
           {/* Right: Floating Phones */}
-          <div className="relative h-[500px] lg:h-[650px]">
+          <div className="relative h-[250px] sm:h-[400px] lg:h-[650px]">
+
             <Image
               src="/images/download.png"
               alt="Health Stake App on phones"

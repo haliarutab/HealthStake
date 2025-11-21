@@ -123,7 +123,7 @@ export default function HowItWorks() {
           {/* Content */}
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between px-10 py-12 lg:px-20 lg:py-16 text-white">
             <div className="text-center md:text-left mb-8 md:mb-0">
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
                 Scale Your Care,
                 <br />
                 Effortlessly.
