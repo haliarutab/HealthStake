@@ -1,1 +1,3 @@
-// auth routes will go in this folder
+export async function GET() {
+  return Response.json({ message: "Auth endpoint is live" });
+}
