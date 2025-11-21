@@ -25,6 +25,7 @@ const config: Config = {
         primary: "#007BFF",
         primaryLight: "#4DA3FF",
         primaryDark: "#005FCC",
+        primaryDarker: "#0056B3",
 
         // --------------------------
         // NEUTRAL / TEXT COLORS

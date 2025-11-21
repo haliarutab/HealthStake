@@ -35,8 +35,6 @@ export default function Hero() {
           {/* RIGHT IMAGE */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative">
-              {/* Background circle like your design */}
-              {/* <div className="absolute -top-6 -right-6 w-[430px] h-[430px] bg-[#F1F7FF] rounded-full"></div> */}
 
               <Image
                 src="/images/hero-section.png"
@@ -50,7 +48,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ⭐ STATS - MOVED BELOW THE IMAGE ⭐ */}
+        {/* STATS  */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 text-center">
           <div>
             <h2 className="text-3xl font-bold text-primary">10,000+</h2>
