@@ -55,16 +55,16 @@ export default function Footer() {
           {/* Social Icons */}
           <div className="flex gap-6">
             <a href="#" aria-label="Facebook">
-              <Image src="/images/icons/facebook.svg" alt="Facebook" width={24} height={24} />
+              <Image priority={false} src="/images/icons/facebook.svg" alt="Facebook" width={24} height={24} />
             </a>
             <a href="#" aria-label="Instagram">
-              <Image src="/images/icons/instagram.svg" alt="Instagram" width={24} height={24} />
+              <Image priority={false} src="/images/icons/instagram.svg" alt="Instagram" width={24} height={24} />
             </a>
             <a href="#" aria-label="LinkedIn">
-              <Image src="/images/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
+              <Image priority={false} src="/images/icons/linkedin.svg" alt="LinkedIn" width={24} height={24} />
             </a>
             <a href="#" aria-label="Youtube">
-              <Image src="/images/icons/youtube.svg" alt="Youtube" width={24} height={24} />
+              <Image priority={false} src="/images/icons/youtube.svg" alt="Youtube" width={24} height={24} />
             </a>
           </div>
 
