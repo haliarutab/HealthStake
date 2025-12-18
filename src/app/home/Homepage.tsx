@@ -14,7 +14,6 @@ export default function HomePage() {
 
       <Navbar />
      <Hero />
-    
       <WhyChooseUs />
       <HowPlatformWorks />
       <ClientSuccessStories />

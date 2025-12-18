@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import GAProvider from "@/components/GAProvider";
 
 /* Load Inter with all needed weights */
 const inter = Inter({
@@ -21,8 +22,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* Apply Inter globally */}
       <body className={`${inter.variable} font-sans antialiased`}>
+        <GAProvider /> {/* Client Component for GA */}
         {children}
       </body>
     </html>
