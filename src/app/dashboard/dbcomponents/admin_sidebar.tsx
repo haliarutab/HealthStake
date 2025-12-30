@@ -2,16 +2,20 @@ import {
   LayoutDashboard, Users, Bell, CheckSquare, 
   MessageSquare, FileText, Activity 
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-export default function AdminSidebar({ activePage, setActivePage }: any) {
-  const menuItems = [
-    { name: 'Dashboard', icon: LayoutDashboard },
-    { name: 'Patients', icon: Users },
-    { name: 'Alerts', icon: Bell, badge: 3 },
-    { name: 'Tasks', icon: CheckSquare },
-    { name: 'Messages', icon: MessageSquare },
-    { name: 'Reports', icon: FileText },
-  ];
+export default function AdminSidebar() {
+  const pathname = usePathname();
+const menuItems = [
+  { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+  { name: 'Patients', icon: Users, href: '/dashboard/patients' },
+  { name: 'Alerts', icon: Bell, href: '/dashboard/alerts', badge: 3 },
+  { name: 'Tasks', icon: CheckSquare, href: '/dashboard/tasks' },
+  { name: 'Messages', icon: MessageSquare, href: '/dashboard/messages' },
+  { name: 'Reports', icon: FileText, href: '/dashboard/reports' },
+];
+
 
   return (
     <aside className="w-64 bg-white border-r flex flex-col h-screen">
@@ -23,25 +27,31 @@ export default function AdminSidebar({ activePage, setActivePage }: any) {
       </div>
 
       <nav className="flex-1 px-4 space-y-1">
-        {menuItems.map((item) => (
-          <button
-            key={item.name}
-            onClick={() => setActivePage(item.name)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-              activePage === item.name 
-                ? 'bg-blue-50 text-blue-600 font-bold' 
-                : 'text-slate-500 hover:bg-slate-50'
-            }`}
-          >
-            <item.icon size={20} />
-            <span>{item.name}</span>
-            {item.badge && (
-              <span className="ml-auto bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded">
-                {item.badge}
-              </span>
-            )}
-          </button>
-        ))}
+       {menuItems.map((item) => {
+  const isActive = pathname === item.href;
+
+  return (
+    <Link
+      key={item.name}
+      href={item.href}
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+        isActive
+          ? 'bg-blue-50 text-blue-600 font-bold'
+          : 'text-slate-500 hover:bg-slate-50'
+      }`}
+    >
+      <item.icon size={20} />
+      <span>{item.name}</span>
+
+      {item.badge && (
+        <span className="ml-auto bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded">
+          {item.badge}
+        </span>
+      )}
+    </Link>
+  );
+})}
+
       </nav>
     </aside>
   );

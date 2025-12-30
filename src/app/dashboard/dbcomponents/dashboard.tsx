@@ -1,4 +1,8 @@
-import { TrendingUp, Clock, AlertTriangle, Activity, Phone, MessageSquare, ChevronRight ,Bell } from "lucide-react";
+import { 
+  TrendingUp, Clock, AlertTriangle, Activity, 
+  Phone, MessageSquare, ChevronRight, Bell, CheckCircle2 
+} from "lucide-react";
+import Link from "next/link";
 
 export default function DashboardContent() {
   return (
@@ -17,36 +21,43 @@ export default function DashboardContent() {
         <StatCard title="Pending Alerts" value="3" icon={Activity} color="border-blue-500" iconBg="bg-blue-500" />
       </div>
 
+      {/* Middle Row */}
       <div className="grid grid-cols-3 gap-8">
-        {/* Left Column: Patients Requiring Attention */}
         <div className="col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <div className="flex items-center gap-2 mb-6">
-            <AlertTriangle className="text-slate-400" size={20} />
-            <h3 className="font-bold text-slate-800">Patients Requiring Attention</h3>
-            <span className="bg-slate-100 text-slate-500 text-xs px-2 py-0.5 rounded-md">3</span>
-          </div>
-          
+          <SectionHeader icon={AlertTriangle} title="Patients Requiring Attention" count={3} />
           <div className="space-y-4">
-            <PatientRow name="Ahmed Al-Rashid" glucose="245 mg/dL" status="critical" statusColor="bg-red-100 text-red-600" />
-            <PatientRow name="Mohammed Hassan" glucose="198 mg/dL" status="attention needed" statusColor="bg-orange-100 text-orange-600" />
-            <PatientRow name="Omar Al-Farsi" glucose="220 mg/dL" status="attention needed" statusColor="bg-orange-100 text-orange-600" />
+            <PatientRow name="Ahmed Al-Rashid" glucose="245 mg/dL" status="critical" color="red" />
+            <PatientRow name="Mohammed Hassan" glucose="198 mg/dL" status="attention needed" color="orange" />
+            <PatientRow name="Omar Al-Farsi" glucose="220 mg/dL" status="attention needed" color="orange" />
           </div>
         </div>
 
-        {/* Right Column: Recent Alerts */}
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <Bell className="text-slate-400" size={20} />
-              <h3 className="font-bold text-slate-800">Recent Alerts</h3>
-            </div>
-            <button className="text-blue-500 text-xs font-semibold flex items-center gap-1">
-              View All <ChevronRight size={14} />
-            </button>
-          </div>
+          <SectionHeader icon={Bell} title="Recent Alerts" showViewAll />
           <div className="space-y-4">
-            <AlertItem name="Omar Al-Farsi" type="high" desc="No glucose readings submitted..." time="Dec 15, 12:22 PM" />
-            <AlertItem name="Mohammed Hassan" type="medium" desc="Multiple high readings detected..." time="Dec 15, 12:22 PM" />
+            <AlertItem name="Omar Al-Farsi" type="high" desc="No glucose readings submitted..." time="12:22 PM" />
+            <AlertItem name="Mohammed Hassan" type="medium" desc="Multiple high readings detected..." time="12:22 PM" />
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM SECTIONS: High Glucose & My Tasks */}
+      <div className="grid grid-cols-3 gap-8 pb-10">
+        <div className="col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+          <SectionHeader icon={TrendingUp} title="High Glucose Patients" count={3} />
+          <div className="space-y-4">
+            <PatientRow name="Ahmed Al-Rashid" glucose="245 mg/dL" status="critical" color="red" />
+            <PatientRow name="Mohammed Hassan" glucose="198 mg/dL" status="attention needed" color="orange" />
+            <PatientRow name="Omar Al-Farsi" glucose="220 mg/dL" status="attention needed" color="orange" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+          <SectionHeader icon={CheckCircle2} title="My Tasks" count={4} showViewAll />
+          <div className="space-y-4">
+            <TaskItem title="Check readings for Omar" patient="Omar Al-Farsi" priority="high" />
+            <TaskItem title="Weekly review - Mohammed" patient="Mohammed Hassan" priority="medium" />
+            <TaskItem title="Update patient records" patient="All Patients" priority="low" />
           </div>
         </div>
       </div>
@@ -54,7 +65,27 @@ export default function DashboardContent() {
   );
 }
 
-// Sub-components for cleaner code
+// --- HELPER COMPONENTS ---
+
+function SectionHeader({ icon: Icon, title, count, showViewAll }: any) {
+  return (
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-2">
+        <Icon className="text-slate-400" size={20} />
+        <h3 className="font-bold text-slate-800">{title}</h3>
+        {count && <span className="bg-slate-100 text-slate-500 text-xs px-2 py-0.5 rounded-md">{count}</span>}
+      </div>
+     <Link
+  href="/dashboard/alerts"
+  className="text-blue-500 text-xs font-semibold flex items-center gap-1 hover:underline"
+>
+  View All <ChevronRight size={14} />
+</Link>
+
+    </div>
+  );
+}
+
 function StatCard({ title, value, icon: Icon, color, iconBg }: any) {
   return (
     <div className={`bg-white p-6 rounded-2xl shadow-sm border-b-4 ${color} flex justify-between items-start`}>
@@ -62,30 +93,26 @@ function StatCard({ title, value, icon: Icon, color, iconBg }: any) {
         <p className="text-slate-400 text-sm font-medium">{title}</p>
         <h4 className="text-3xl font-bold text-slate-800 mt-2">{value}</h4>
       </div>
-      <div className={`${iconBg} p-2.5 rounded-xl text-white`}>
-        <Icon size={20} />
-      </div>
+      <div className={`${iconBg} p-2.5 rounded-xl text-white`}><Icon size={20} /></div>
     </div>
   );
 }
 
-function PatientRow({ name, glucose, status, statusColor }: any) {
+function PatientRow({ name, glucose, status, color }: any) {
+  const colors: any = {
+    red: "bg-red-100 text-red-600",
+    orange: "bg-orange-100 text-orange-600"
+  };
   return (
     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
-          {name.charAt(0)}
-        </div>
+        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">{name.charAt(0)}</div>
         <div>
           <div className="flex items-center gap-2">
             <p className="font-bold text-slate-800">{name}</p>
-            <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${statusColor}`}>
-              {status}
-            </span>
+            <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${colors[color]}`}>{status}</span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
-            <Activity size={12} /> {glucose} <span className="mx-1">•</span> 11 months ago
-          </p>
+          <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1"><Activity size={12} /> {glucose} • 11 months ago</p>
         </div>
       </div>
       <div className="flex gap-2">
@@ -101,12 +128,28 @@ function AlertItem({ name, type, desc, time }: any) {
     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
       <div className="flex items-center justify-between">
         <p className="font-bold text-sm text-slate-800">{name}</p>
-        <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase ${type === 'high' ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600'}`}>
-          {type}
-        </span>
+        <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase ${type === 'high' ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600'}`}>{type}</span>
       </div>
       <p className="text-xs text-slate-500 line-clamp-1">{desc}</p>
-      <p className="text-[10px] text-slate-400">{time}</p>
+      <p className="text-[10px] text-slate-400">Dec 15, {time}</p>
+    </div>
+  );
+}
+
+function TaskItem({ title, patient, priority }: any) {
+  const prioStyles: any = {
+    high: "bg-red-100 text-red-600",
+    medium: "bg-blue-100 text-blue-600",
+    low: "bg-slate-100 text-slate-500"
+  };
+  return (
+    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+      <div className="flex items-center justify-between">
+        <p className="font-bold text-sm text-slate-800">{title}</p>
+        <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase ${prioStyles[priority]}`}>{priority}</span>
+      </div>
+      <p className="text-xs text-slate-500">{patient}</p>
+      <p className="text-[10px] text-red-500 font-medium flex items-center gap-1"><Clock size={10}/> Overdue</p>
     </div>
   );
 }
