@@ -1,16 +1,45 @@
-import { 
-  TrendingUp, Clock, AlertTriangle, Activity, 
-  Phone, MessageSquare, ChevronRight, Bell, CheckCircle2 
+"use client";
+
+import {
+  TrendingUp, Clock, AlertTriangle, Activity,
+  Phone, MessageSquare, ChevronRight, Bell, CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
-
+import { useEffect, useState } from "react";
 export default function DashboardContent() {
+  //I do hard code username for now 
+  // const [userName, setUserName] = useState("");
+
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   if (user) {
+  //     setUserName(JSON.parse(user).name);
+  //   }
+  // }, []);
+    const userName = "Halia";
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? "Good morning" :
+    hour < 18 ? "Good afternoon" :
+    "Good evening";
+   const today = new Date();
+
+  const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   return (
+    
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold text-slate-800">Good afternoon, Halia</h2>
-        <p className="text-slate-400 mt-1">Thursday, December 18, 2025</p>
+     <h2 className="text-3xl font-bold text-slate-800">
+      {greeting}, {userName || "User"}
+    </h2>
+   <p className="text-slate-400 mt-1">{formattedDate}</p>
+
       </div>
 
       {/* Top Stat Cards */}
@@ -53,7 +82,14 @@ export default function DashboardContent() {
         </div>
 
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-          <SectionHeader icon={CheckCircle2} title="My Tasks" count={4} showViewAll />
+          <SectionHeader
+            icon={CheckCircle2}
+            title="My Tasks"
+            count={4}
+            showViewAll
+            viewLink="/dashboard/tasks"
+          />
+
           <div className="space-y-4">
             <TaskItem title="Check readings for Omar" patient="Omar Al-Farsi" priority="high" />
             <TaskItem title="Weekly review - Mohammed" patient="Mohammed Hassan" priority="medium" />
@@ -67,24 +103,37 @@ export default function DashboardContent() {
 
 // --- HELPER COMPONENTS ---
 
-function SectionHeader({ icon: Icon, title, count, showViewAll }: any) {
+function SectionHeader({
+  icon: Icon,
+  title,
+  count,
+  showViewAll,
+  viewLink = "/dashboard/alerts",
+}: any) {
   return (
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center gap-2">
         <Icon className="text-slate-400" size={20} />
         <h3 className="font-bold text-slate-800">{title}</h3>
-        {count && <span className="bg-slate-100 text-slate-500 text-xs px-2 py-0.5 rounded-md">{count}</span>}
+        {count && (
+          <span className="bg-slate-100 text-slate-500 text-xs px-2 py-0.5 rounded-md">
+            {count}
+          </span>
+        )}
       </div>
-     <Link
-  href="/dashboard/alerts"
-  className="text-blue-500 text-xs font-semibold flex items-center gap-1 hover:underline"
->
-  View All <ChevronRight size={14} />
-</Link>
 
+      {showViewAll && (
+        <Link
+          href={viewLink}
+          className="text-blue-500 text-xs font-semibold flex items-center gap-1 hover:underline"
+        >
+          View All <ChevronRight size={14} />
+        </Link>
+      )}
     </div>
   );
 }
+
 
 function StatCard({ title, value, icon: Icon, color, iconBg }: any) {
   return (
@@ -149,7 +198,7 @@ function TaskItem({ title, patient, priority }: any) {
         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold uppercase ${prioStyles[priority]}`}>{priority}</span>
       </div>
       <p className="text-xs text-slate-500">{patient}</p>
-      <p className="text-[10px] text-red-500 font-medium flex items-center gap-1"><Clock size={10}/> Overdue</p>
+      <p className="text-[10px] text-red-500 font-medium flex items-center gap-1"><Clock size={10} /> Overdue</p>
     </div>
   );
 }

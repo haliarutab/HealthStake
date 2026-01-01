@@ -1,6 +1,6 @@
 "use client";
 
-import Messages from "../dbcomponents/messages";
+import Messages from "./messages";
 import AdminSidebar from "../dbcomponents/admin_sidebar";
 
 export default function MessagesPage() {
