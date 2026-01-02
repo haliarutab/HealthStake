@@ -1,13 +1,14 @@
 "use client";
+import Link from "next/link";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Search, 
-  Filter, 
-  Download, 
-  UserPlus, 
-  Phone, 
-  MessageSquare, 
+import {
+  Search,
+  Filter,
+  Download,
+  UserPlus,
+  Phone,
+  MessageSquare,
   MoreVertical,
   TrendingUp,
   Clock,
@@ -30,7 +31,8 @@ export default function Patients() {
   const [selectedFilter, setSelectedFilter] = useState("All Patients");
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+  const actionMenuRef = useRef<HTMLDivElement | null>(null);
   // Initial Data
   const allPatients: Patient[] = [
     { id: '1', name: 'Ahmed Al-Rashid', mrn: 'MRN-001234', status: 'Critical', lastReading: '245', diabetesType: 'Type2', lastActivity: '12 months ago' },
@@ -43,7 +45,7 @@ export default function Patients() {
 
   // Combined Search and Category Filtering Logic
   const filteredPatients = allPatients.filter(patient => {
-    const matchesSearch = 
+    const matchesSearch =
       patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       patient.mrn.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -62,6 +64,10 @@ export default function Patients() {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
+      }
+      // NEW: Close action menu if clicking outside
+      if (actionMenuRef.current && !actionMenuRef.current.contains(event.target as Node)) {
+        setMenuOpenId(null);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -92,9 +98,9 @@ export default function Patients() {
       <div className="flex gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input 
-            type="text" 
-            placeholder="Search patients by name, MRN, or email..." 
+          <input
+            type="text"
+            placeholder="Search patients by name, MRN, or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-100 transition-all text-sm"
@@ -102,7 +108,7 @@ export default function Patients() {
         </div>
 
         <div className="relative" ref={dropdownRef}>
-          <button 
+          <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center justify-between min-w-[180px] gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-700 hover:bg-slate-50 transition-all"
           >
@@ -110,8 +116,8 @@ export default function Patients() {
               <Filter size={18} className="text-slate-400" />
               <span className="text-sm font-medium">{selectedFilter}</span>
             </div>
-            <svg 
-              className={`w-4 h-4 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} 
+            <svg
+              className={`w-4 h-4 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
               fill="none" viewBox="0 0 24 24" stroke="currentColor"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -140,15 +146,15 @@ export default function Patients() {
 
       {/* Pill Filters */}
       <div className="flex gap-3">
-        <button 
+        <button
           onClick={() => setSelectedFilter("All Patients")}
           className={`px-4 py-1.5 text-[11px] font-bold rounded-lg uppercase transition-all ${selectedFilter === "All Patients" ? "bg-blue-600 text-white shadow-lg shadow-blue-100" : "bg-white border border-slate-200 text-slate-700"}`}
         >
           All
         </button>
-        <FilterButton icon={<TrendingUp size={14}/>} label="High Glucose" active={selectedFilter === "High Glucose"} onClick={() => setSelectedFilter("High Glucose")} />
-        <FilterButton icon={<Clock size={14}/>} label="Missing Readings" active={selectedFilter === "Missing Readings"} onClick={() => setSelectedFilter("Missing Readings")} />
-        <FilterButton icon={<AlertTriangle size={14}/>} label="Critical" active={selectedFilter === "Critical"} onClick={() => setSelectedFilter("Critical")} />
+        <FilterButton icon={<TrendingUp size={14} />} label="High Glucose" active={selectedFilter === "High Glucose"} onClick={() => setSelectedFilter("High Glucose")} />
+        <FilterButton icon={<Clock size={14} />} label="Missing Readings" active={selectedFilter === "Missing Readings"} onClick={() => setSelectedFilter("Missing Readings")} />
+        <FilterButton icon={<AlertTriangle size={14} />} label="Critical" active={selectedFilter === "Critical"} onClick={() => setSelectedFilter("Critical")} />
       </div>
 
       {/* Table */}
@@ -179,28 +185,52 @@ export default function Patients() {
                   </div>
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md uppercase ${
-                    p.status === 'Critical' ? 'bg-red-50 text-red-500' : 
-                    p.status === 'Attention Needed' ? 'bg-orange-50 text-orange-400' : 'bg-green-50 text-green-500'
-                  }`}>
+                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md uppercase ${p.status === 'Critical' ? 'bg-red-50 text-red-500' :
+                      p.status === 'Attention Needed' ? 'bg-orange-50 text-orange-400' : 'bg-green-50 text-green-500'
+                    }`}>
                     {p.status}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <span className={`text-sm font-bold ${
-                    p.status === 'Critical' ? 'text-red-500' : 
-                    p.status === 'Attention Needed' ? 'text-red-400' : 'text-green-600'
-                  }`}>
+                  <span className={`text-sm font-bold ${p.status === 'Critical' ? 'text-red-500' :
+                      p.status === 'Attention Needed' ? 'text-red-400' : 'text-green-600'
+                    }`}>
                     {p.lastReading} <span className="text-slate-400 font-normal ml-0.5">mg/dL</span>
                   </span>
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-600 text-center">{p.diabetesType}</td>
                 <td className="px-6 py-4 text-sm text-slate-500 text-center">{p.lastActivity}</td>
+
+                {/* Updated Actions Cell */}
                 <td className="px-6 py-4 text-right pr-6">
-                  <div className="flex items-center justify-end gap-5 text-slate-500">
-                    <button className="hover:text-blue-600 transition-colors" title="Call"><Phone size={19} strokeWidth={1.5} /></button>
-                    <button className="hover:text-blue-600 transition-colors" title="Message"><MessageSquare size={19} strokeWidth={1.5} /></button>
-                    <button className="hover:text-slate-800 transition-colors" title="More"><MoreVertical size={19} strokeWidth={1.5} /></button>
+                  <div className="flex items-center justify-end gap-5 text-slate-500 relative">
+                    <button className="hover:text-blue-600 transition-colors" title="Call">
+                      <Phone size={19} strokeWidth={1.5} />
+                    </button>
+                    <button className="hover:text-blue-600 transition-colors" title="Message">
+                      <MessageSquare size={19} strokeWidth={1.5} />
+                    </button>
+
+                    {/* Action Dropdown Container */}
+                    <div className="relative" ref={menuOpenId === p.id ? actionMenuRef : null}>
+                      <button
+                        onClick={() => setMenuOpenId(menuOpenId === p.id ? null : p.id)}
+                        className="hover:text-slate-800 transition-colors"
+                        title="More"
+                      >
+                        <MoreVertical size={19} strokeWidth={1.5} />
+                      </button>
+
+                      {menuOpenId === p.id && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl z-[60] py-2 text-left">
+                          <button className="w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors text-left">View Profile</button>
+                          <button className="w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors text-left">Edit Patient</button>
+                          <button className="w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors text-left">View Readings</button>
+                          <div className="border-t border-slate-50 my-1"></div>
+                          <button className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">Escalate to Doctor</button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -217,8 +247,8 @@ export default function Patients() {
 
 function FilterButton({ icon, label, active, onClick }: any) {
   return (
-    <button 
-      onClick={onClick} 
+    <button
+      onClick={onClick}
       className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${active ? "bg-blue-600 text-white border-blue-600 shadow-md" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"}`}
     >
       <span className={active ? "text-white" : "text-slate-400"}>{icon}</span>
